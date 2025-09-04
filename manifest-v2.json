@@ -4,7 +4,7 @@
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "theme_color": "#ffffff",  /* <-- PERUBAHAN DI SINI */
   "orientation": "portrait",
   "description": "Digitalisasi Administrasi Kinerja",
   "icons": [
@@ -27,7 +27,7 @@
       "purpose": "any maskable"
     },
     {
-      "src": "https://i.imghippo.com/files/F2741Cc.png",
+      "src": "https.imghippo.com/files/F2741Cc.png",
       "sizes": "96x96",
       "type": "image/png",
       "purpose": "any maskable"
