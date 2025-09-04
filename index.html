@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    
+    <meta name="theme-color" content="#ffffff">
+    
     <link rel="shortcut icon" type="image/png" href="https://i.imghippo.com/files/F2741Cc.png" />
     <title>DI-SMADA</title>
     
@@ -12,11 +15,9 @@
         html, body {
             margin: 0; padding: 0; height: 100%; width: 100%;
             overflow: hidden; font-family: Arial, sans-serif;
-            background-color: #ffffff; /* Tambahkan warna latar belakang */
+            background-color: #ffffff; /* Pastikan background putih */
         }
         body { display: flex; flex-direction: column; }
-        
-        /* --- PERUBAHAN CSS DIMULAI DI SINI --- */
         
         #loading-screen {
             position: fixed;
@@ -43,8 +44,6 @@
             /* Secara default akan terlihat, JS akan menyembunyikannya jika loading screen aktif */
             visibility: visible; 
         }
-
-        /* --- PERUBAHAN CSS SELESAI DI SINI --- */
 
         #installButton {
             position: fixed; bottom: 20px; left: 50%;
@@ -79,8 +78,6 @@
         const appFrame = document.getElementById('appFrame');
         const loadingScreen = document.getElementById('loading-screen');
 
-        // --- PERUBAHAN JAVASCRIPT DIMULAI DI SINI ---
-
         // Fungsi untuk mengecek apakah perangkat adalah mobile
         function isMobile() {
             return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -92,7 +89,7 @@
         if (isStandalone) {
             // Jika sudah di-install, tampilkan loading screen dan sembunyikan iframe
             loadingScreen.style.display = 'flex';
-            appFrame.style.visibility = 'hidden'; // Gunakan visibility agar layout tidak berantakan
+            appFrame.style.visibility = 'hidden';
 
             // Tambahkan event listener untuk menunggu iframe selesai load
             appFrame.addEventListener('load', () => {
@@ -101,32 +98,32 @@
                 appFrame.style.visibility = 'visible';
             });
         }
-        // Tombol install disembunyikan jika sudah standalone
-        installButton.style.display = 'none';
-
-        // --- AKHIR DARI LOGIKA LOADING SCREEN ---
-
+        
+        // Sembunyikan tombol install secara default jika sudah standalone
+        if (isStandalone) {
+            installButton.style.display = 'none';
+        }
 
         window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
+            // Cek jika belum diinstall baru jalankan logic prompt
+            if (!isStandalone) {
+                e.preventDefault();
+                deferredPrompt = e;
 
-            // Tampilkan tombol HANYA jika di perangkat mobile
-            if (isMobile()) {
-                installButton.style.display = 'block';
+                // Tampilkan tombol HANYA jika di perangkat mobile
+                if (isMobile()) {
+                    installButton.style.display = 'block';
 
-                // Atur timer untuk menyembunyikan tombol setelah 15 detik
-                setTimeout(() => {
-                    if (installButton.style.display === 'block') {
-                        console.log('Waktu 15 detik habis, tombol install disembunyikan.');
-                        installButton.style.display = 'none';
-                    }
-                }, 15000); // 15000 milidetik = 15 detik
+                    // Atur timer untuk menyembunyikan tombol setelah 15 detik
+                    setTimeout(() => {
+                        if (installButton.style.display === 'block') {
+                            installButton.style.display = 'none';
+                        }
+                    }, 15000); // 15 detik
+                }
             }
         });
         
-        // --- PERUBAHAN JAVASCRIPT SELESAI DI SINI ---
-
         installButton.addEventListener('click', async () => {
             installButton.style.display = 'none';
             if (deferredPrompt) {
